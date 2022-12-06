@@ -1,0 +1,339 @@
+import React, { useState } from "react";
+import axios from "axios";
+import { useEffect } from "react";
+
+const Layout = () => {
+  const [addTodo, setAddTodo] = useState("");
+  const [allTodo, setAllTodo] = useState(null);
+  const [addtask, setAddTask] = useState(null);
+  const fetchData = async () => {
+    const res1 = await axios.get("/getAllTitels");
+    setAllTodo(res1.data);
+    //   for(let i = 0;i<res1.data.length;i++){
+    //   console.log(res1.data[i].title);
+
+    // }
+  };
+  useEffect(() => {
+    // console.log("helo i am working");
+    fetchData();
+  }, [allTodo]);
+
+  const submitdata = async () => {
+    const data = {
+      title: addTodo,
+    };
+    const res = await axios.post("/addtodo", data);
+    // console.log(res);
+  };
+// for todo submit
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    submitdata();
+    setAddTodo("");
+  };
+
+// for task submit
+const handleTaskSubmit = (event)=>{
+  event.preventDefault();
+}
+
+  return (
+    <div>
+      <div className="drawer">
+        <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+        <div className="flex flex-row justify-center  items-center drawer-content">
+
+          {/* home todo */}
+          <label
+            htmlFor="my-drawer"
+            className="px-[40px] py-[20px] rounded-md cursor-pointer
+bg-[#E89F0B] drawer-button"
+          >
+            TODO
+          </label>
+        </div>
+        
+        {/* side drawer todo */}
+        <div className="drawer-side">
+          <label htmlFor="my-drawer" className="drawer-overlay"></label>
+          <ul className="menu p-4 w-80 bg-base-100 text-base-content">
+            <button onClick={handleSubmit}>Add todo</button>
+            <input
+              type="text"
+              id="Todo"
+              Todo="Todo"
+              className="border-4 border-green-800"
+              value={addTodo}
+              onChange={(event) => {
+                setAddTodo(event.target.value);
+              }}
+            />
+            <tbody>
+              {allTodo &&
+                allTodo.map((data) => (
+                  <tr>
+                    <div class="dropdown-content     dropdown-right">
+                      <label tabindex="0" class="btn m-1">
+                        <td>{data.title} </td>
+                      </label>
+                      <ul
+                        tabindex="0"
+                        class="dropdown menu p-2 shadow bg-base-100 rounded-box w-52"
+                      >
+                        <li>
+
+                          {/* add TASK */}
+                          <a>
+                            <div className="flex flex-col border">
+                          <button onClick={handleTaskSubmit}>Add task</button>
+                            
+                            <input
+                              type="text"
+                              id="Todo"
+                              Todo="Todo"
+                              className="border-4 border-green-800"
+                              value={addTodo}
+                              onChange={(event) => {
+                                setAddTodo(event.target.value);
+                              }}
+                              />
+                              </div>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </tr>
+                ))}
+            </tbody>
+          </ul>
+        </div>
+      </div>
+
+      <label onClick={handleSubmit} htmlFor="Todo" className="">
+        Add TODO
+      </label>
+      <input
+        type="text"
+        id="Todo"
+        Todo="Todo"
+        className="border-4 border-red-800"
+        value={addTodo}
+        onChange={(event) => {
+          setAddTodo(event.target.value);
+        }}
+      />
+    </div>
+  );
+};
+
+export default Layout;
+
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
+const Addtask = (props) => {
+  const [temp, setTemp] = useState(props.temp1);
+  const [tasks, setTasks]  = useState(null)
+
+const fetchtask = async ()=>{
+    const res = await axios.put(`/addTaskInsideTodo/${props.id}`)
+    console.log(res,"hello");
+}
+
+useEffect(()=>{
+    fetchtask()
+},[tasks])
+
+
+  return (
+    <div>
+      <div className="dropdown dropdown-right">
+        <label tabIndex={0} className="btn m-1">
+          {temp}
+        </label>
+        <ul
+          tabIndex={0}
+          className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+        >
+         
+        </ul>
+      </div>
+    </div>
+  );
+};
+export default Addtask;
+
+
+
+
+
+
+import React, { useState } from "react";
+import axios from "axios";
+import { useEffect } from "react";
+import Addtask from "./Addtask";
+const Layout = () => {
+  const [addTodo, setAddTodo] = useState("");
+  const [allTodo, setAllTodo] = useState(null);
+
+  const fetchData = async () => {
+    const res1 = await axios.get("/getAllTitels");
+    setAllTodo(res1.data);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [allTodo]);
+
+  const submitdata = async () => {
+    const data = {
+      title: addTodo,
+    };
+    await axios.post("/addtodo", data);
+    // console.log(res);
+  };
+  // for todo submit
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    submitdata();
+    setAddTodo("");
+  };
+
+  return (
+    <div>
+      <div className="drawer">
+        <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+        <div className="flex flex-row justify-center  items-center drawer-content">
+          {/* home todo */}
+          <label
+            htmlFor="my-drawer"
+            className="px-[40px] py-[20px] rounded-md cursor-pointer
+bg-[#E89F0B] drawer-button"
+          >
+            TODO
+          </label>
+        </div>
+
+        {/* side drawer todo */}
+        <div className="drawer-side">
+          <label htmlFor="my-drawer" className="drawer-overlay"></label>
+          <ul className="menu p-4 w-80 bg-base-100 text-base-content">
+            <button onClick={handleSubmit}>Add todo</button>
+            <input
+              type="text"
+              id="Todo"
+              Todo="Todo"
+              className="border-4 border-green-800"
+              value={addTodo}
+              onChange={(event) => {
+                setAddTodo(event.target.value);
+              }}
+            />
+            <tbody>
+              {allTodo &&
+                allTodo.map((data) => (
+                  <div class="dropdown dropdown-right flex flex-col ">
+                    <label
+                      tabindex="0"
+                      class="cursor-pointer m-1"
+                    >
+                    </label>
+                    <ul
+                      tabindex="0"
+                      class="dropdown-content menu   rounded-box w-52"
+                    >
+                      <li><Addtask temp1 = {data.title} id = {data._id}/></li>
+                    </ul>
+                  </div>
+                ))}
+            </tbody>
+          </ul>
+        </div>
+      </div>
+
+
+{/* home todo */}
+      <label onClick={handleSubmit} htmlFor="Todo" className="">
+        Add TODO
+      </label>
+      <input
+        type="text"
+        id="Todo"
+        Todo="Todo"
+        className="border-4 border-red-800"
+        value={addTodo}
+        onChange={(event) => {
+          setAddTodo(event.target.value);
+        }}
+      />
+    </div>
+  );
+};
+
+export default Layout;
+
+
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
+const Addtask = (props) => {
+  const [temp, setTemp] = useState(props.temp1);
+  const [tasks, setTask] = useState(null);
+  const [taskObject, setTaskObject] = useState("");
+  const [symbol, setsymbol] = useState("💪")
+  const submitdata = async () => {
+      const sendData = {
+        task: tasks,
+      };
+
+      await axios.put(`/addTaskInsideTodo/${props.id}`, sendData);
+   
+  };
+
+  const fetchtask = async () => {
+    const res = await axios.put(`/addTaskInsideTodo/${props.id}`);
+    setTaskObject(res.data.task);
+    //    console.log(res.data);
+  };
+
+  useEffect(() => {
+    fetchtask();
+  }, [tasks]);
+
+  const handleSubmites = (event) => {
+    event.preventDefault();
+    submitdata();
+    setTask("");
+  };
+
+  return (
+    <div className="flex flex-col justify-start ">
+      <button onClick={handleSubmites}>Add Task</button>
+      <input
+        type="text"
+        id="task"
+        task="task"
+        className="border-4 border-green-800"
+        value={tasks}
+        onChange={(event) => {
+          setTask(event.target.value);
+        }}
+      />
+
+      <div className="mr-[100px] ">
+        {taskObject &&
+          taskObject.map((alltasks) => (
+          <tr className="border-4 border-black w-[150px]" >
+            <td>{symbol} </td>
+            <td>{alltasks}</td>
+          </tr>
+          
+          ))}
+      </div>
+
+    </div>
+  );
+};
+
+export default Addtask;
