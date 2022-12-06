@@ -4,6 +4,8 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 export default function Login() {
+const Base_URL = "https://todoapp-production-b091.up.railway.app/";
+
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
   const [mandatoryfields, setMandatoryFields] = useState(true);
@@ -11,7 +13,7 @@ export default function Login() {
   const handleSubmit = async () => {
     if (email && password) setMandatoryFields(false);
     else {
-      const res = await axios.get("/login",{
+      const res = await axios.get("${Base_URL}/login",{
         email,
         password,
       })

@@ -8,13 +8,14 @@ const SignUp = () => {
   const [email, setEmail] = useState(" ");
   const [password, setPassword] = useState("");
   const [mandatoryfields, setMandatoryFields] = useState(false);
+  const Base_URL = "https://todoapp-production-b091.up.railway.app/";
 
   //Submit
   const handleSubmit = async () => {
     if (name || email || password) {
       setMandatoryFields("All fields are mandatory");
     } else {
-      const res = await axios.post("/signup", {
+      const res = await axios.post("${Base_URL}/signup", {
         name: name,
         email: email,
         password: password,
