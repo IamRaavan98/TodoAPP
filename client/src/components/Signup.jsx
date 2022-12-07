@@ -15,7 +15,7 @@ const SignUp = () => {
     if (name || email || password) {
       setMandatoryFields("All fields are mandatory");
     } else {
-      const res = await axios.post("${Base_URL}/signup", {
+      const res = await axios.post(`${Base_URL}/signup`, {
         name: name,
         email: email,
         password: password,
