@@ -6,7 +6,7 @@ const Addtask = (props) => {
   const [input, setInput] = useState("");
   const [symbol, setsymbol] = useState("💪");
 
-const Base_URL = "https://todoapp-production-b091.up.railway.app/";
+const Base_URL = "https://todoapp-production-3a0b.up.railway.app";
 
  //SUBMIT DATA
   const submitdata = async () => {

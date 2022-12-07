@@ -8,7 +8,7 @@ const SignUp = () => {
   const [email, setEmail] = useState(" ");
   const [password, setPassword] = useState("");
   const [mandatoryfields, setMandatoryFields] = useState(false);
-  const Base_URL = "https://todoapp-production-b091.up.railway.app/";
+  const Base_URL = "https://todoapp-production-3a0b.up.railway.app";
 
   //Submit
   const handleSubmit = async () => {
@@ -20,7 +20,7 @@ const SignUp = () => {
         email: email,
         password: password,
       });
-      // console.log(res,"there");
+      console.log(res,"there");
     }
   };
 
