@@ -1,4 +1,4 @@
-exports.home = (req, res) => {
+ exports.home = (req, res) => {
     res.send("Hello from Backend");
   };
   
