@@ -12,7 +12,7 @@ const Todoapp = () => {
   const [openclose, setOpenClose] = useState(0);
 
   //To fetch all the data from database
-  const Base_URL = "https://todoapp-production-3a0b.up.railway.app";
+  const Base_URL = "https://todoapp-production-4cf3.up.railway.app";
   const fetchData = async () => {
     const resp = await axios.get(`${Base_URL}/getAllTitels`);
     setAllTodo(resp.data);

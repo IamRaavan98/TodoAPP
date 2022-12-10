@@ -8,4 +8,4 @@ const EditTodo = ()=>{
         </div>
     )
 }
-export default EditTodo
+ export default EditTodo;
