@@ -139,12 +139,12 @@ const Todoapp = () => {
                       <div className="ml-[30px]">
                         <p>UpdatedAt</p>
 
-                        <p className="text-[#EFF54D]">
+                        {/* <p className="text-[#EFF54D]">
                           {model.updatedAt.substring(0, 10) ===
                           model.createdAt.substring(0, 10)
                             ? "Not yet Updated"
                             : model.updatedAt.substring(0, 10)}
-                        </p>
+                        </p> */}
                       </div>
 
                       <div>
