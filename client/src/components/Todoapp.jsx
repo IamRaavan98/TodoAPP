@@ -14,7 +14,7 @@ const Todoapp = () => {
   //To fetch all the data from database
   const Base_URL = "https://todoapp-production-3a0b.up.railway.app";
   const fetchData = async () => {
-    const resp = await axios.get(`/getAllTitels`);
+    const resp = await axios.get(`${Base_URL}/getAllTitels`);
     setAllTodo(resp.data);
     //  console.log(typeof resp.data[0].updatedAt);
     //  console.log(resp.data[0].updatedAt);
@@ -30,7 +30,7 @@ const Todoapp = () => {
       const data = {
         title: addTodo,
       };
-      const res = await axios.post(`/addtodo`, data);
+      const res = await axios.post(`${Base_URL}/addtodo`, data);
       console.log(res);
     } else {
       alert("plzz enter todo");
@@ -50,7 +50,7 @@ const Todoapp = () => {
 
     if (!newtitle) alert("Enter Title to Edit");
     else {
-      const resp = await axios.put(`/editTodo/${model._id}`, {
+      const resp = await axios.put(`${Base_URL}/editTodo/${model._id}`, {
         title: newtitle,
       });
       // console.log(resp);
@@ -59,7 +59,7 @@ const Todoapp = () => {
 
   //DELETE
   const handleDelete = async (model) => {
-    const resp = await axios.delete(`/deleteTodo/${model._id}`);
+    const resp = await axios.delete(`${Base_URL}/deleteTodo/${model._id}`);
     // console.log(resp);
   };
 

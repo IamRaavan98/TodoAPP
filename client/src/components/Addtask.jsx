@@ -17,13 +17,13 @@ const Addtask = (props) => {
 
       };
       setInput("");
-      await axios.put(`/addTaskInsideTodo/${props.id}`, sendData);
+      await axios.put(`${Base_URL}/addTaskInsideTodo/${props.id}`, sendData);
       // console.log(task,"hello");
     }
   };
 
   const fetchData = async () => {
-    const res = await axios.put(`/addTaskInsideTodo/${props.id}`);
+    const res = await axios.put(`${Base_URL}/addTaskInsideTodo/${props.id}`);
     setTask(res.data.task.title);
   };
 
@@ -44,7 +44,7 @@ const Addtask = (props) => {
       toDelete: title,
     };
     // console.log(data);
-    const resp = await axios.post(`/deleteTask/${props.id}`, data);
+    const resp = await axios.post(`${Base_URL}/deleteTask/${props.id}`, data);
     // console.log(resp);
   };
 
@@ -54,7 +54,7 @@ const Addtask = (props) => {
 
     if (!newtitle) alert("Enter Title to Edit");
     else {
-      const resp = await axios.put(`/editTask/${props.id}`, {
+      const resp = await axios.put(`${Base_URL}/editTask/${props.id}`, {
         original: title,
         toEdit: newtitle,
       });

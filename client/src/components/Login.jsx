@@ -14,7 +14,7 @@ const Base_URL = "https://todoapp-production-3a0b.up.railway.app";
   const handleSubmit = async () => {
     if (email && password) setMandatoryFields(false);
     else {
-      const res = await axios.get(`/login`,{
+      const res = await axios.get(`${Base_URL}/login`,{
         email,
         password,
       })
