@@ -3,7 +3,7 @@ const todo = require("../models/todoSchema")
 exports.addtodo = async (req,res)=>{
   
 
-  // console.log(req.body,"heeloo");
+  console.log(req.body,"heeloo");
   try {
      const{ title,date }= req.body
      

@@ -11,11 +11,15 @@ const SignUp = () => {
   const Base_URL = "https://todoapp-production-3a0b.up.railway.app";
 
   //Submit
-  const handleSubmit = async () => {
-    if (name || email || password) {
+  // console.log(name,"name");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    if (!name || !email || !password) {
       setMandatoryFields("All fields are mandatory");
     } else {
-      const res = await axios.post(`${Base_URL}/signup`, {
+      const res = await axios.post(`/signup`, {
         name: name,
         email: email,
         password: password,
@@ -40,7 +44,7 @@ const SignUp = () => {
             </h2>
           </div>
 
-          <form className="mt-8 space-y-6" method="POST" action="/signup">
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
@@ -118,11 +122,11 @@ const SignUp = () => {
 
             <div>
               <button
-                onClick={() => handleSubmit()}
+              
                 type="submit"
                 className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
-                <NavLink to={"/signup"}>SignUP</NavLink>
+                <NavLink to={"/"}>SignUP</NavLink>
               </button>
             </div>
           </form>

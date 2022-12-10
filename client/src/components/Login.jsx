@@ -9,21 +9,22 @@ const Base_URL = "https://todoapp-production-3a0b.up.railway.app";
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
   const [mandatoryfields, setMandatoryFields] = useState(true);
+  const [temp,setTemp] = useState(0);
   //Submit
   const handleSubmit = async () => {
     if (email && password) setMandatoryFields(false);
     else {
-      const res = await axios.get(`${Base_URL}/login`,{
+      const res = await axios.get(`/login`,{
         email,
         password,
       })
-
+      setTemp(res)
+      console.log(res);
 
       
     }
-    // console.log(res);
   };
-
+console.log(temp);
   return (
     <>
       <div className="flex flex-col">
