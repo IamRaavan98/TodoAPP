@@ -126,7 +126,7 @@ const Todoapp = () => {
 
                     <div className="  flex flex-row justify-around w-max">
                       <td className="cursor-pointer  w-[100px] text-[#fff] text-lg font-semibold">
-                        {model.todo.title.toUpperCase()}
+                        {model.todo.title}
                       </td>
 
                       <div>
