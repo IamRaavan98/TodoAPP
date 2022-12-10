@@ -7,17 +7,13 @@ const cookieParser = require('cookie-parser')
 const cors = require("cors");
 // connecting to database
 
-DBconnection();
 
 //middleware
 app.use(cookieParser());
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-// app.get('/addtodo', (req, res) => {
-//     res.send('Hello !')
-
-//   })
+DBconnection();
 app.use("/",routes)
 
 
