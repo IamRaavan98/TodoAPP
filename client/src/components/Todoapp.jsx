@@ -16,6 +16,7 @@ const Todoapp = () => {
   const fetchData = async () => {
     const resp = await axios.get(`${Base_URL}/getAllTitels`);
     setAllTodo(resp.data);
+
     //  console.log(typeof resp.data[0].updatedAt);
     //  console.log(resp.data[0].updatedAt);
   };
@@ -181,11 +182,11 @@ const Todoapp = () => {
 
             <div>
               <tr>
-                <td className="border-4 px-[20px] ">
+                <td className=" ">
                   {count === 0 ? (
                     ""
                   ) : (
-                    <Addtask temp1={count.task} id={count._id} />
+                    <Addtask className="border-4 px-[20px]" temp1={count.task} id={count._id} />
                     )}
                     </td>
               </tr>
