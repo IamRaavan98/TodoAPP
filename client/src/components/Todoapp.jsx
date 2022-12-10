@@ -132,7 +132,7 @@ const Todoapp = () => {
                       <div>
                         <p>CreatedAt</p>
                         <p className="text-[#EFF54D]">
-                          {model.createdAt.substring(0, 10)}
+                          {/* {model.createdAt.substring(0, 10)} */}
                         </p>
                       </div>
 
