@@ -16,9 +16,10 @@ try {
             }
             todo.task.title.push(name)
            
-            todo.task.date = date
+           
             await todo.save()
-            
+            todo.createdAt; 
+            todo.updatedAt;
         }
     }
         res.status(200).json(todo)

@@ -3,20 +3,23 @@ const todo = require("../models/todoSchema")
 exports.addtodo = async (req,res)=>{
   
 
-  console.log(req.body,"heeloo");
+  // console.log(req.body,"heeloo");
   try {
-     const{ title,date }= req.body
-     
+     const{ title}= req.body
+     //to make first letter of title in upper case we use Title variable
+
     const todoExists = await todo.findOne({"todo.title":title})
     if((todoExists)){throw new Error("todo already exists");}
    // creating new todo
    const newtodo = new todo({ 
      todo:{
       title:title,
-      date:date,
+   
      }
    })
    await newtodo.save()
+   newtodo.createdAt; 
+   newtodo.updatedAt;
      res.status(200).json(newtodo)
 
 
