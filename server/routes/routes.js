@@ -1,4 +1,5 @@
 const express = require("express")
+const {home} = require("../controllers/home")
 const {addtodo} = require("../controllers/addtodo")
 const {addTaskInsideTodo} = require("../controllers/addTaskInsideTodo")
 const {getAllTitels} = require("../controllers/getAllTitels")
@@ -13,6 +14,8 @@ const {login} = require("../controllers/login")
 const {checkUser} = require("../controllers/checkUser")
 const router = express.Router();
 
+
+router.get("/", home);
 router.post("/addtodo",addtodo)
 router.get("/getAllTitels",getAllTitels)
 router.put("/addTaskInsideTodo/:id",addTaskInsideTodo)
