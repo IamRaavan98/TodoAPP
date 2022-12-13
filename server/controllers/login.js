@@ -1,30 +1,42 @@
-const user = require("../models/userSchema")
+const User = require("../models/userSchema");
 
-exports.login = async (req,res)=>{
+exports.login  = async(req,res)=>{
+ 
     try {
-        if((req.cookies)){
-            const {email} = req.cookies
-            const existEmail = await user.findOne(email)
-            if(existEmail){res.status(400).send(existEmail)} //it means checked give him login
-            else{
-                throw new error("email not found")
-            }
-        }
-        else{
-            const {email,password} = req.body
-           //empty fields check at front end
-            const User = await user.findOne(email)
-            
-            if(!(User)){throw new error("You are not registered")}
-            else{
-                res.status(400).send(User)  //it means checked give him login
-            }
-        }
-
+      const { email, password } = req.body;
+  
+      const user = await User.findOne({ email });
+  
+  
+     if(user && (await bcrypt.compare(password, user.password))) {
+        const token = jwt.sign(
+          { user_id: user._id, email },
+          process.env.SECRET_KEY,
+          {
+            expiresIn: "2h",
+          }
+        );
+        user.token = token;
+        user.password = undefined;
+        // res.status(200).json(user);
+  
+        // if you want to use cookies
+        const options = {
+          expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+          httpOnly: true,
+        };
+  
+        res.status(200).cookie("token", token, options).json({
+          success: true,
+          token,
+          user,
+        });
+      }
+  
+      res.sendStatus(400).send("email or password is incorrect");
     } catch (error) {
-        
+      console.log(error);
     }
 
-  
-} 
 
+}

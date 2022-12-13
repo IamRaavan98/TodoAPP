@@ -1,21 +1,23 @@
 import React from "react";
 import axios from "axios";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [name, setName] = useState(" ");
   const [email, setEmail] = useState(" ");
   const [password, setPassword] = useState("");
   const [mandatoryfields, setMandatoryFields] = useState(false);
+  const [warning, setWarning] = useState("");
   const Base_URL = "https://todoapp-production-4cf3.up.railway.app";
-
+  // const Base_URL = "http://localhost:3000"
   //Submit
   // console.log(name,"name");
 
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!name || !email || !password) {
       setMandatoryFields("All fields are mandatory");
     } else {
@@ -24,24 +26,33 @@ const SignUp = () => {
         email: email,
         password: password,
       });
-      console.log(res,"there");
+       
+      
+      if (res.data != "user already exists") {
+        // navigate("/Home", { state: res.config.data });
+      } else {
+        setWarning("You are already registerd Please Login");
+      }
     }
   };
 
   return (
     <>
-      <div className="flex flex-col">
-        <NavLink to={"/"}>Home</NavLink>
-        <NavLink to={"/login"}>LogIn</NavLink>
-      </div>
+      
 
       <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-md space-y-8">
-          <div>
+          <div className="flex flex-col">
             <p className="mt-6 text-center text-3xl font-bold">TODO app</p>
             <h2 className="mt-6 text-center text-xl font-bold tracking-tight text-gray-900">
               WELCOME, Please Signup
             </h2>
+            <NavLink className="btn btn-primary" to={"/login"}>LogIn</NavLink>
+          </div>
+
+          {/* for registerd users */}
+          <div>
+            <h1 className="text-red-600">{warning}</h1>
           </div>
 
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -122,11 +133,10 @@ const SignUp = () => {
 
             <div>
               <button
-              
                 type="submit"
                 className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
-                <NavLink to={"/"}>SignUP</NavLink>
+                SignUP
               </button>
             </div>
           </form>

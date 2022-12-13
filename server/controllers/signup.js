@@ -1,33 +1,34 @@
 require("dotenv").config;
-const user = require("../models/userSchema");
+const User = require("../models/userSchema");
 const bcrypt = require("bcrypt");
 var jwt = require('jsonwebtoken');
 exports.signup = async (req, res) => {
 
   try {
     const { name, email, password } = req.body;
-    console.log(req.body);
+     
     // we are not covering if fields are empty we cover it in frontend itself
 
-// console.log(req.body);
-    const User = await user.findOne({email});
+    const UserExists = await User.findOne({email});
 
-    if (User) {
-      res.send("user already exists")
+    if (UserExists) {
+      throw new Error("Email already exists");
     } 
     else {
+      const myEncPassword = await bcrypt.hash(password, 10);
+          //  console.log(myEncPassword,password);
 
-        const User = user.create({
-            email:email,
+        const user = await User.create({
+          email:email,
+          password: myEncPassword,
             name:name,
-            password:await bcrypt.hash(password,10),
-        })
-        //as soon as we create a user in mongo it return us an _id
-     
-       //token
+        });
+        // as soon as we create a user in mongo it return us an _id
+         console.log(myEncPassword,user);
+      //  token
        const token = jwt.sign(
         {
-            id: User._id, email, 
+          user_id: user._id,email, myEncPassword, 
        },
        process.env.SECRET_KEY,
        {
@@ -42,15 +43,16 @@ exports.signup = async (req, res) => {
 
       res.status(200).cookie("token",token,options).json({
         success:true,
-        User,
+        user,
         token,
       })
       
-      
+    
     }
-    // res.status(400).send("")
-  } catch (error) {
+    
+  }catch (error) {
     res.send(error.message)
-    console.log(error.message);
+
+
   }
 };
