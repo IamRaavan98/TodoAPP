@@ -10,7 +10,7 @@ const {deleteTask} = require("../controllers/deleteTask")
 const {searchTodo} = require("../controllers/searchTodo")
 const {searchTask} = require("../controllers/searchTask")
 const {signup} = require("../controllers/signup")
-const {login} = require("../controllers/login")
+const {login} =  require("../controllers/login")
 const {checkUser} = require("../controllers/checkUser")
 const router = express.Router();
 
@@ -21,7 +21,7 @@ router.get("/getAllTitels",getAllTitels)
 router.put("/addTaskInsideTodo/:id",addTaskInsideTodo)
 router.put("/editTodo/:id",editTodo)
 router.put("/editTask/:id",editTask)
-router.delete("/deleteTodo/:id",deleteTodo)
+router.post("/deleteTodo",deleteTodo)
 router.post("/deleteTask/:id",deleteTask)//here we use get as we cannot pass data in using .delete from frontend so we will never knew what to delete as tasks dont have an id only todo has
 router.get("/searchTodo/:id",searchTodo)
 router.get("/searchTask/:id",searchTask)

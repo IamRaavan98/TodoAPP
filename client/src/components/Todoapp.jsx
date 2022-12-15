@@ -5,21 +5,22 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 const Todoapp = () => {
-  const [addTodo, setAddTodo] = useState("");
-  const [allTodo, setAllTodo] = useState(null);
-  const [task, setTask] = useState("false");
+  const [addTodo, setAddTodo] = useState(""); 
+  const [allTodo, setAllTodo] = useState(0);
   const [count, setCount] = useState(0);
-  const [openclose, setOpenClose] = useState(0);
+  const [task, setTask] = useState(0);
+  const [inputTask, setInputTask]  = useState(0);
 
   //To fetch all the data from database
   const Base_URL = "https://todoapp-production-4cf3.up.railway.app";
+    //  const Base_URL = "http://localhost:3000"
   const fetchData = async () => {
     const resp = await axios.get(`${Base_URL}/getAllTitels`);
-    setAllTodo(resp.data);
-
-    //  console.log(typeof resp.data[0].updatedAt);
-    //  console.log(resp.data[0].updatedAt);
-  };
+        setAllTodo(resp.data.todo.title)   
+        //  console.log(resp.data);
+        setCount(resp.data)
+        
+      };
 
   useEffect(() => {
     fetchData();
@@ -29,7 +30,7 @@ const Todoapp = () => {
   const submitdata = async () => {
     if (addTodo.trim() != 0) {
       const data = {
-        title: addTodo,
+        name: addTodo,
       };
       const res = await axios.post(`${Base_URL}/addtodo`, data);
       console.log(res);
@@ -60,20 +61,18 @@ const Todoapp = () => {
 
   //DELETE
   const handleDelete = async (model) => {
-    const resp = await axios.delete(`${Base_URL}/deleteTodo/${model._id}`);
-    // console.log(resp);
+    const datas = {
+      title:model
+    };
+    console.log(datas);
+    const res = await axios.post(`${Base_URL}/deleteTodo`, datas);
   };
 
-  const handletask = (model) => {
-    if (openclose === 0) {
-      setCount(model);
-      setTask(model.todo.title);
-      setOpenClose(1);
-    } else {
-      setCount(0);
-      setOpenClose(0);
-    }
-  };
+  
+  function handletask(model){
+    setTask(1);
+    setInputTask(model)
+  }
 
   return (
     <>
@@ -93,21 +92,21 @@ const Todoapp = () => {
 
         <div className="flex flex-col justify-center items-center z-0 ">
           <form method="get" onSubmit={handleSubmit}>
-            <div className="flex flex-col justify-center  w-[500px] h-max items-center  ">
+            <div className="flex flex-row justify-center  w-[500px] h-max items-center  ">
               <input
                 type="text"
                 autocomplete="off"
                 id="AddTODO"
                 AddTODO="AddTODO"
-                className="rounded-xl w-full text-xl"
-                placeholder="   Add TODO"
+                className="rounded-xl w-full text-xl text-center"
+                placeholder="Add TODO"
                 value={addTodo}
                 onChange={(event) => {
                   setAddTodo(event.target.value);
                 }}
               />
               <label
-                className="text-[#EFF54D] hover:bg-[#FF9F4A] px-3 py-2 rounded-md  mt-4 text-xl "
+                className="text-[#EFF54D] hover:bg-[#FF9F4A]  rounded-md text-xl w-[150px] ml-[10px] p-2 "
                 onClick={() => handleSubmit()}
                 for="AddTODO"
               >
@@ -116,71 +115,84 @@ const Todoapp = () => {
             </div>
           </form>
 
-          <div className="flex flex-row-reverse  w-full justify-around space-y-2 mr-[10px] ">
-            {/*this div for rendering todo  */}
-            <div className="space-y-5  ">
-              {/* {(!(allTodo))?(console.log(allTodo,"empty")):(console.log(allTodo,"Notempty"))} */}
-              {allTodo &&
-                allTodo.map((model) => (
-                  <tr className="flex flex-row justify-between ">
-                    {/* {(!(allTodo))?(console.log(allTodo,"empty")):(console.log(model.todo.title,"Notempty"))} */}
+<div className="flex flex-row-reverse  w-full justify-around space-y-2 mr-[10px] mt-[50px]">
+  {/*this div for rendering todo  */}
+  <div className="space-y-5  ">
 
-                    <div className="  flex flex-row justify-around w-max">
-                      <td className="cursor-pointer  w-[100px] text-[#fff] text-lg font-semibold">
-                        {model.todo.title.toUpperCase()}
-                      </td>
+    {allTodo&&
+      allTodo.map((model) => (
+        <tr className="flex flex-row justify-between ">
+          {/* {(!(allTodo))?(console.log(allTodo,"empty")):(console.log(allTodo,"Notempty"))} */}
 
-                      <div>
-                        <p>CreatedAt</p>
-                        <p className="text-[#EFF54D]">
-                          {model.createdAt.substring(0, 10)}
-                        </p>
-                      </div>
+          <div className=" flex flex-row justify-around w-max space-x-4">
+            
+            <td className=" cursor-pointer  w-[150px] px- text-[#fff] text-lg font-semibold">
+              {model.toUpperCase()}
 
-                      <div className="ml-[30px]">
-                        <p>UpdatedAt</p>
+            </td>
+                      
+      <div>
+      <p>CreatedAt</p>
+      <p className=" text-[#EFF54D]">
+        {count.createdAt.substring(0, 10)}
+      </p>
+    </div>
 
-                        <p className="text-[#EFF54D]">
-                          {model.updatedAt.substring(0, 10) ===
-                          model.createdAt.substring(0, 10)
-                            ? "Not yet Updated"
-                            : model.updatedAt.substring(0, 10)}
-                        </p>
-                      </div>
+    <div className=" ml-[30px]">
+      <p>UpdatedAt</p>
 
-                      <div>
-                        <button
-                          onClick={() => handletask(model)}
-                          className="ml-[50px] hover:bg-[#FF9F4A] px-4  rounded-lg "
-                        >
-                          Tasks
-                        </button>
-                      </div>
+        <p className="text-[#EFF54D]">
+          {count.updatedAt.substring(0, 10) ===
+          count.createdAt.substring(0, 10)
+            ? "Not yet Updated"
+            : model.updatedAt.substring(0, 10)}
+        </p>
+      </div>
 
-                      <div>
-                        <button
-                          onClick={() => handleEdit(model)}
-                          className="ml-[50px] hover:bg-[#FF9F4A] px-4  rounded-lg "
-                        >
-                          Edit
-                        </button>
-                      </div>
+      <div>
+        <button
+        >
+          Tasks
+        <div className="flex   flex-row justify-center">
+          <button className="   hover:bg-[#FF9F4A]   rounded-lg " onClick={()=>handletask(model)}>show/</button>
+          <button className="   hover:bg-[#FF9F4A]   rounded-lg "onClick={()=>setTask(0)}>hide</button>
+        </div>
+        </button>
+      </div>
 
-                      <div>
-                        <button
-                          onClick={() => handleDelete(model)}
-                          className="ml-[50px] bg-[#FF9F4A] font-extrabold rounded-xl px-4 py-2 text-[#fff] hover:text-[#FF0000] "
-                        >
-                          Delete
-                        </button>
-                      </div>
+      <div>
+        <button
+          onClick={() => handleEdit(model)}
+          className="ml-[50px] hover:bg-[#FF9F4A] px-4  rounded-lg "
+        >
+          Edit
+        </button>
+      </div>
 
-                    </div>
-                  </tr>
-                ))}
-            </div>
+      <div>
+        <button
+          onClick={() => handleDelete(model)}
+          className="ml-[50px] bg-[#FF9F4A] font-extrabold rounded-xl px-4 py-2 text-[#fff] hover:text-[#FF0000] "
+        >
+          Delete
+        </button>
+      </div>
 
-            <div>
+    </div>
+  
+  <div>
+    <tr>
+      <td>
+        {(task === 1)?(<Addtask title={inputTask} BigObj= {count}/>):("")}
+      </td>
+    </tr>
+  </div>
+
+  </tr>
+))}
+</div>
+
+            {/* <div>
               <tr>
                 <td className=" ">
                   {count === 0 ? (
@@ -190,7 +202,7 @@ const Todoapp = () => {
                     )}
                     </td>
               </tr>
-            </div>
+            </div> */}
 
             {/* <div> <p> {date}</p></div> */}
             {/* this div for edit and delete buttons */}

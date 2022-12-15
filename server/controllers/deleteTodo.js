@@ -2,10 +2,17 @@ const todo = require("../models/todoSchema")
 
 exports.deleteTodo = async (req,res)=>{
         try {
-
-          const id = req.params.id;
-          // console.log("heeeeelo".req.body);
-          const user = await todo.findByIdAndDelete(req.params.id);
+          const {title} = req.body;
+  
+          const user = await todo.findOne({title});
+        
+            for (let index = 0; index < user.todo.title.length; index++) {
+                  if(user.todo.title[index] === title){
+                    user.todo.title.splice(index,1);
+                  }
+              
+            }
+           await user.save()
           res.status(200).json({
             success: true,
             message: "User Deleted Successfully",

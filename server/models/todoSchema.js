@@ -1,14 +1,21 @@
 const mongoose = require("mongoose");
 const todoSchema = new mongoose.Schema(
   {
-    todo: {
-      title: String,
-     
-    },
-    task: {
-      title: [String],
-     
-    },
+    
+      email:{
+        type:String,
+      },
+      todo: {
+        title: [String],
+       
+      },
+      task: [        
+        {
+          tasktodo: String,
+           title: [String],
+      }
+    ],  
+  
   },
   { 
     timestamps: true 

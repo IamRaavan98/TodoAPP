@@ -1,15 +1,19 @@
 const User = require("../models/userSchema");
-
-exports.login  = async(req,res)=>{
+const bcrypt = require("bcrypt");
+var jwt = require('jsonwebtoken');
+exports.login = async(req,res)=>{
  
     try {
       const { email, password } = req.body;
-  
-      const user = await User.findOne({ email });
-  
-  
-     if(user && (await bcrypt.compare(password, user.password))) {
-        const token = jwt.sign(
+      const user = await User.findOne({email});
+          
+      if(!user){
+        throw new Error("User not found")
+      } 
+    else {
+       await bcrypt.compare(password, user.password) 
+      
+      const token = jwt.sign(
           { user_id: user._id, email },
           process.env.SECRET_KEY,
           {
@@ -33,9 +37,10 @@ exports.login  = async(req,res)=>{
         });
       }
   
-      res.sendStatus(400).send("email or password is incorrect");
+      // res.status(400).send("email or password is incorrect");
     } catch (error) {
-      console.log(error);
+      res.send(error.message)
+      // console.log(error);
     }
 
 

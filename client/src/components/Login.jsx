@@ -10,6 +10,7 @@ const Login = () => {
   const [mandatoryfields, setMandatoryFields] = useState(false);
   const [warning, setWarning] = useState("");
   const Base_URL = "https://todoapp-production-4cf3.up.railway.app";
+  // const Base_URL = "http://localhost:3000"
 
   //Submit
   const navigate = useNavigate();
@@ -19,14 +20,29 @@ const Login = () => {
     if (!email || !password) {
       setMandatoryFields("All fields are mandatory");
     } else {
-      const res = await axios.post(`${Base_URL}/signup`, {
+
+      const res = await axios.post(`${Base_URL}/login`, {
         email: email,
         password: password,
       });
+       console.log(res);
+      if (res.data != "User not found") {
+        navigate("/Home", { state: res.config.data });
+      } else {
+        setWarning("SigNup Bruh");
+        setEmail("")
+        setPassword("")
+
+      }
+
 
     }
   };
 
+    function handleEmail(e){
+    
+      setEmail(e);
+    }
   return (
     <>
       <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -62,7 +78,8 @@ const Login = () => {
                   required
                   className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   value={email}
-                  onChange={(event) => setEmail(event.target.value)}
+                  onChange={(event) => handleEmail(event.target.value)}
+                  onClick={()=>setWarning("")}
                 />
               </div>
               <div>

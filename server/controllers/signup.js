@@ -1,5 +1,6 @@
 require("dotenv").config;
 const User = require("../models/userSchema");
+const Todo = require("../models/todoSchema")
 const bcrypt = require("bcrypt");
 var jwt = require('jsonwebtoken');
 exports.signup = async (req, res) => {
@@ -8,7 +9,7 @@ exports.signup = async (req, res) => {
     const { name, email, password } = req.body;
      
     // we are not covering if fields are empty we cover it in frontend itself
-
+   // we are considering that as user is not signup yet he is not having any todo or task
     const UserExists = await User.findOne({email});
 
     if (UserExists) {
@@ -23,8 +24,11 @@ exports.signup = async (req, res) => {
           password: myEncPassword,
             name:name,
         });
+     
         // as soon as we create a user in mongo it return us an _id
-         console.log(myEncPassword,user);
+
+        //we are creating todoschema for this email so that data could be stored
+
       //  token
        const token = jwt.sign(
         {
