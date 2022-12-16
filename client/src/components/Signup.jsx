@@ -29,7 +29,7 @@ const SignUp = () => {
        
       
       if (res.data != "user already exists") {
-        // navigate("/Home", { state: res.config.data });
+        navigate("/Home", { state: res.config.data });
       } else {
         setWarning("You are already registerd Please Login");
       }
