@@ -9,6 +9,8 @@ exports.deleteTodo = async (req,res)=>{
             for (let index = 0; index < user.todo.title.length; index++) {
                   if(user.todo.title[index] === title){
                     user.todo.title.splice(index,1);
+                    user.task.splice(index,1);
+                    
                   }
               
             }

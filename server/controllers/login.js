@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 var jwt = require('jsonwebtoken');
 exports.login = async(req,res)=>{
  
+  
     try {
       const { email, password } = req.body;
       const user = await User.findOne({email});

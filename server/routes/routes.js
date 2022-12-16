@@ -22,7 +22,7 @@ router.put("/addTaskInsideTodo/:id",addTaskInsideTodo)
 router.put("/editTodo/:id",editTodo)
 router.put("/editTask/:id",editTask)
 router.post("/deleteTodo",deleteTodo)
-router.post("/deleteTask/:id",deleteTask)//here we use get as we cannot pass data in using .delete from frontend so we will never knew what to delete as tasks dont have an id only todo has
+router.post("/deleteTask",deleteTask)//here we use get as we cannot pass data in using .delete from frontend so we will never knew what to delete as tasks dont have an id only todo has
 router.get("/searchTodo/:id",searchTodo)
 router.get("/searchTask/:id",searchTask)
 router.post("/signup",signup)
