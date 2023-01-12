@@ -12,7 +12,10 @@ const cors = require("cors");
 app.use(cookieParser());
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+   origin: 'https://todo-1umn2vy5n-rohanagrawal1798-gmailcom.vercel.app/',
+   credentials: true,
+  ));
 DBconnection();
 app.use("/",routes)
 
